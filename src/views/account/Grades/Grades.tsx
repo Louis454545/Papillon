@@ -39,6 +39,7 @@ import PapillonSpinner from "@/components/Global/PapillonSpinner";
 const GradesAverageGraph = lazy(() => import("./Graph/GradesAverage"));
 const GradesLatestList = lazy(() => import("./Latest/LatestGrades"));
 const Subject = lazy(() => import("./Subject/Subject"));
+const FakeGrades = lazy(() => import("./FakeGrades/FakeGrades"));
 
 const Grades: Screen<"Grades"> = ({ route, navigation }) => {
   const theme = useTheme();
@@ -68,6 +69,8 @@ const Grades: Screen<"Grades"> = ({ route, navigation }) => {
 
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+
+  const [fakeGrades, setFakeGrades] = useState<any[]>([]);
 
   useEffect(() => {
     setTimeout(() => {
@@ -266,6 +269,14 @@ const Grades: Screen<"Grades"> = ({ route, navigation }) => {
                   classOverall={averages[selectedPeriod]?.classOverall.value}
                 />
               </Reanimated.View>
+            )}
+
+            {grades[selectedPeriod] && (
+              <FakeGrades
+                periodName={selectedPeriod}
+                currentGrades={grades[selectedPeriod] ?? []}
+                onFakeGradesChange={setFakeGrades}
+              />
             )}
 
             {latestGradesRef.current.length > 2 && (
